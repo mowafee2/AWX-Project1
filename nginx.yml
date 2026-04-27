@@ -5,13 +5,16 @@
       apt:
         update_cache: yes
         force_apt_get: yes
-        
+        cache_valid_time: 3600   # ← skip update if cache is fresh < 1hr
+
     - name: install nginx
       apt:
         name: nginx
         state: present
+        update_cache: yes        # ← ensures apt is updated before install
 
-    - name: start nginx
+    - name: start and enable nginx
       service:
         name: nginx
         state: started
+        enabled: yes             # ← auto-start nginx on server reboot
